@@ -15,8 +15,12 @@ def analyze_genes(file_path, file_format):
                     gene_lengths.append(gene_length)
                 if "product" in feature.qualifiers:
                     product = feature.qualifiers["product"][0].lower()
+                    gene_name = feature.qualifiers.get("gene", [None])[0]
                     if "rna polymerase" in product or "dna polymerase" in product:
-                        polymerase_genes.append(product)
+                        if gene_name != None :
+                            polymerase_genes.append(gene_name)
+                        else:
+                            polymerase_genes.append(product)
     gene_count = len(gene_lengths)
     avg_length = sum(gene_lengths) / gene_count if gene_count > 0 else 0
     return gene_count, avg_length, polymerase_genes
